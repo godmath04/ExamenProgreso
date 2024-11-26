@@ -107,18 +107,48 @@ public class ListaDobleGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = textField1.getText();
-                NodoDoble nodo = lis.buscarListaDoble(id);
-                if (nodo == null) {
-                    JOptionPane.showMessageDialog(null, "Heroe no encontrado");
-                } else {
-                    Heroe heroe = nodo.dato;
-                    JOptionPane.showMessageDialog(null, "Heroe encontrado:\n" +
-                            "ID: " + heroe.getId() + "\n" +
-                            "Nombre: " + heroe.getNombre() + "\n" +
-                            "Superpoder: " + heroe.getSuperpoder() + "\n" +
-                            "Pago mensual: " + heroe.getPagoMensual());
+                if (id.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor, ingrese un ID para buscar.");
+                    return;
                 }
 
+                NodoDoble nodo = lis.buscarHeroePorId(id); // Método que buscará el nodo con el héroe
+                if (nodo == null) {
+                    JOptionPane.showMessageDialog(null, "Héroe con ID: " + id + " no encontrado.");
+                } else {
+                    Heroe heroe = nodo.dato;
+
+                    // Mostrar los datos actuales del héroe y pedir nuevas entradas
+                    String nuevoNombre = JOptionPane.showInputDialog("Nombre actual: " + heroe.getNombre() + "\nNuevo nombre:", heroe.getNombre());
+                    if (nuevoNombre == null || nuevoNombre.trim().isEmpty()) nuevoNombre = heroe.getNombre();
+
+                    String nuevoSuperpoder = JOptionPane.showInputDialog("Superpoder actual: " + heroe.getSuperpoder() + "\nNuevo superpoder:", heroe.getSuperpoder());
+                    if (nuevoSuperpoder == null || nuevoSuperpoder.trim().isEmpty()) nuevoSuperpoder = heroe.getSuperpoder();
+
+                    //String nuevaMision = JOptionPane.showInputDialog("Misión actual: " + heroe.getMisionId() + "\nNueva misión:", heroe.getMisionId());
+                    //if (nuevaMision == null || nuevaMision.trim().isEmpty()) nuevaMision = heroe.getMisionId();
+
+                    String nuevoPagoMensualStr = JOptionPane.showInputDialog("Pago mensual actual: $" + heroe.getPagoMensual() + "\nNuevo pago mensual:", heroe.getPagoMensual());
+                    double nuevoPagoMensual;
+                    try {
+                        nuevoPagoMensual = Double.parseDouble(nuevoPagoMensualStr.trim());
+                        if (nuevoPagoMensual <= 0) throw new NumberFormatException("El pago debe ser mayor a 0.");
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Entrada inválida para el pago mensual. No se actualizará.");
+                        nuevoPagoMensual = heroe.getPagoMensual();
+                    }
+
+                    // Actualizar datos del héroe
+                    heroe.setNombre(nuevoNombre);
+                    heroe.setSuperpoder(nuevoSuperpoder);
+                    //heroe.setMisionId(nuevaMision);
+                    heroe.setPagoMensual(nuevoPagoMensual);
+
+                    JOptionPane.showMessageDialog(null, "Datos del héroe actualizados correctamente.");
+                    lis.mostrarListaDoble(textArea1); // Refrescar la lista mostrada
+
+
+                }
             }
         });
         mostrarButton.addActionListener(new ActionListener() {

@@ -16,6 +16,7 @@ public class ListaDoble {
         fin = null;
         tam = 0;
     }
+    //Metodo para mostra lista doble
     public void mostrarListaDoble(JTextArea textArea){
         if (ini == null){
             textArea.setText("La lista esta vacia");
@@ -42,17 +43,6 @@ public class ListaDoble {
                 }
                 actual = actual.sig;
             }
-            /*
-            REVISAR LUEGO
-            //Impresion inversa
-            listaStr.append("Lista en orden inverso:\n");
-            actual = fin;
-            while (actual != null){
-                listaStr.append(actual.dato)
-                        .append("");
-                actual = actual.ant;
-            }
-            l             */
             textArea.setText(listaStr.toString());
         }
     }
@@ -61,6 +51,7 @@ public class ListaDoble {
         mostrarListaDoble(textArea);
     }
 
+    //Ordenar la lista
     public void ordenarListaDoble(JTextArea textArea){
         if (ini == null || ini.sig == null){
             JOptionPane.showMessageDialog(null, "La lista ya está ordenada o está vacía.");
@@ -82,13 +73,14 @@ public class ListaDoble {
         }while (swapped);
         actualizarListaDoble(textArea);
         JOptionPane.showMessageDialog(null, "La lista ha sido ordenada por pago mensual.");
-
     }
 
-    public NodoDoble buscarListaDoble(String id){
+    //Buscar el nodo mediante id
+    public NodoDoble buscarHeroePorId(String id){
         NodoDoble actual = ini;
-        while (actual != null){
-            if (actual.dato.getId().equals(id)){
+        while (actual != null) {
+            if (actual.dato.getId().equals(id)) {
+                // Devolver el nodo si se encuentra el héroe
                 return actual;
             }
             actual = actual.sig;
@@ -96,12 +88,12 @@ public class ListaDoble {
         return null;
     }
 
+    //Eliminar elemento de la lista doble
     public boolean eliminarListaDoble(String id, JTextArea textArea){
         if (ini == null){
             JOptionPane.showMessageDialog(null, "La lista esta vacia");
             return false;
         }
-
         NodoDoble actual=ini;
         while (actual!= null && !actual.dato.getId().equals(id)){
             actual = actual.sig;
@@ -130,7 +122,7 @@ public class ListaDoble {
         actualizarListaDoble(textArea);
         return true;
     }
-
+    //Agregar heroe a la lista
     public void agregarListaDoble(Heroe heroe, JTextArea textArea){
         NodoDoble nuevo = new NodoDoble(heroe);
         if (ini == null){
