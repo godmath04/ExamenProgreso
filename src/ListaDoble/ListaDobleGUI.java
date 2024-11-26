@@ -5,6 +5,8 @@ import Heroes.Mision;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class ListaDobleGUI {
     private JPanel pGeneral;
@@ -29,6 +31,12 @@ public class ListaDobleGUI {
                     return;
                 }
 
+                // Verificar si el ID ya existe
+                if (lis.buscarHeroePorId(id) != null) {
+                    JOptionPane.showMessageDialog(null, "El ID ingresado ya existe. Por favor ingrese un ID único.");
+                    textField1.setText(""); // Limpiar el campo de texto
+                    return; // Detener la ejecución si el ID ya existe
+                }
 
                 try {
                     //Solicitar datos si el ID es valido
