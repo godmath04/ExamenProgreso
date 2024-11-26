@@ -89,6 +89,7 @@ public class ListaDobleGUI {
                 }
             }
         });
+        //Eliminar mediante id
         eliminarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -98,11 +99,10 @@ public class ListaDobleGUI {
                     textField1.setText("");
                 }catch (Exception ex){
                     throw new RuntimeException(ex);
-
                 }
-
             }
         });
+        //Ordenar lista doble
         ordenarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,6 +113,7 @@ public class ListaDobleGUI {
                 }
             }
         });
+        //Buscar por id
         buscarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -128,7 +129,7 @@ public class ListaDobleGUI {
                 } else {
                     Heroe heroe = nodo.dato;
 
-                    // Mostrar los datos actuales del héroe y pedir nuevas entradas
+                    // Mostrar los datos actuales del héroe y las nuevas entradas
                     String nuevoNombre = JOptionPane.showInputDialog("Nombre actual: " + heroe.getNombre() + "\nNuevo nombre:", heroe.getNombre());
                     if (nuevoNombre == null || nuevoNombre.trim().isEmpty()) nuevoNombre = heroe.getNombre();
 

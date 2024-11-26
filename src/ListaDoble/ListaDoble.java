@@ -62,7 +62,8 @@ public class ListaDoble {
             swapped = false;
             NodoDoble actual = ini;
             while (actual.sig != null){
-                if (actual.dato.getPagoMensual() > actual.sig.dato.getPagoMensual()){
+                if (actual.dato.getId().compareTo(actual.sig.dato.getId()) > 0){
+                    //Intercambiar lkos datos
                     Heroe temp = actual.dato;
                     actual.dato = actual.sig.dato;
                     actual.sig.dato = temp;
@@ -72,7 +73,7 @@ public class ListaDoble {
             }
         }while (swapped);
         actualizarListaDoble(textArea);
-        JOptionPane.showMessageDialog(null, "La lista ha sido ordenada por pago mensual.");
+        JOptionPane.showMessageDialog(null, "La lista ha sido ordenada por ID.");
     }
 
     //Buscar el nodo mediante id
