@@ -28,6 +28,8 @@ public class ListaDobleGUI {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese un ID para el héroe");
                     return;
                 }
+
+
                 try {
                     //Solicitar datos si el ID es valido
                     String nombreH = JOptionPane.showInputDialog("Ingrese el nombre del Héroe");
