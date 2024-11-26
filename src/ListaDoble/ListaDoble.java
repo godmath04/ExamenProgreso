@@ -122,8 +122,15 @@ public class ListaDoble {
         actualizarListaDoble(textArea);
         return true;
     }
+
     //Agregar heroe a la lista
     public void agregarListaDoble(Heroe heroe, JTextArea textArea){
+        //Verificacion del ID ya existe
+        if (buscarHeroePorId(heroe.getId()) != null) {
+            JOptionPane.showMessageDialog(null, "Error: El ID ya existe. Ingrese un ID único.");
+            return;
+        }
+
         NodoDoble nuevo = new NodoDoble(heroe);
         if (ini == null){
             ini = fin = nuevo;
