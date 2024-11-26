@@ -1,6 +1,7 @@
 package ListaDoble;
 
 import Heroes.Heroe;
+import Heroes.Impuesto;
 import Heroes.Mision;
 
 import javax.swing.*;
@@ -144,6 +145,27 @@ public class ListaDoble {
         actualizarListaDoble(textArea);
 
     }
+
+
+    //Generar informes de todos los heroes
+    public void mostrarInformeCompleto(JTextArea textArea) {
+        if (ini == null) {
+            textArea.setText("La lista está vacía. No hay héroes para generar informe.");
+            return;
+        }
+
+        StringBuilder informe = new StringBuilder("Informe Completo de Héroes:\n\n");
+        NodoDoble actual = ini;
+        Impuesto impuesto = new Impuesto();
+
+        while (actual != null) {
+            informe.append(impuesto.generarInforme(actual.dato)).append("\n---\n");
+            actual = actual.sig;
+        }
+
+        textArea.setText(informe.toString());
+    }
+
 
 
 }

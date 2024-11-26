@@ -124,10 +124,10 @@ public class ListaDobleGUI {
         mostrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
-                    lis.mostrarListaDoble(textArea1);
-                }catch (Exception ex){
-                    throw new RuntimeException(ex);
+                try {
+                    lis.mostrarInformeCompleto(textArea1);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error al generar el informe: " + ex.getMessage());
                 }
             }
         });
