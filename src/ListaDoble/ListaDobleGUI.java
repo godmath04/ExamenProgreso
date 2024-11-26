@@ -1,5 +1,7 @@
 package ListaDoble;
 import Heroes.Heroe;
+import Heroes.Mision;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,15 +54,28 @@ public class ListaDobleGUI {
                         return;
                     }
                     //Agregar bloque para expandir la mision
-
+                    String idMision = JOptionPane.showInputDialog("Ingrese el ID de la Mision");
+                    String nombreMision = JOptionPane.showInputDialog("Ingrese el nombre de la misión: ");
+                    int nivelDificultad;
+                    try {
+                        nivelDificultad = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nivel de dificultad (1-5)"));
+                        if (nivelDificultad < 1 || nivelDificultad > 5) {
+                            JOptionPane.showMessageDialog(null, "El nivel de dificultad debe estar entre 1 y 5.");
+                            return;
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Debe ingresar un número válido para el nivel de dificultad.");
+                        return;
+                    }
+                    String descripcion = JOptionPane.showInputDialog("Ingrese una descripción para la misión");
 
                     //Crear y agregar el nuevo heroe
-                    Heroe nuevoHeroe = new Heroe(id, nombreH, superH,"Mision X", ingresosH);
+                    Mision nuevaMision = new Mision(idMision, nombreMision, nivelDificultad, descripcion);
+                    Heroe nuevoHeroe = new Heroe(id, nombreH, superH, nuevaMision, ingresosH);
                     lis.agregarListaDoble(nuevoHeroe, textArea1);
                     textField1.setText("");
                 }catch (Exception ex){
                     JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
-
                 }
             }
         });

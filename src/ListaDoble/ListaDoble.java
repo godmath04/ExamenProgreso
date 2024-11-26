@@ -1,6 +1,7 @@
 package ListaDoble;
 
 import Heroes.Heroe;
+import Heroes.Mision;
 
 import javax.swing.*;
 
@@ -23,11 +24,21 @@ public class ListaDoble {
             NodoDoble actual = ini;
             while (actual != null){
                 //Modificacion para que construya los atributos del heroe
-                listaStr.append("ID: ").append(actual.dato.getId())
+                Heroe heroe = actual.dato;
+                Mision mision = heroe.getMision();
+                listaStr.append(" || ID: ").append(actual.dato.getId())
                         .append(", Nombre: ").append(actual.dato.getNombre())
                         .append(", Superpoder: ").append(actual.dato.getSuperpoder())
                         .append(", Pago mensual: ").append(actual.dato.getPagoMensual())
+                        .append(", Misión: ").append(mision != null ? mision.getNombreMision() : "Ninguna")
                         .append("\n");
+
+                if (mision != null) {
+                    listaStr.append("    ID Misión: ").append(mision.getId())
+                            .append(", Nivel: ").append(mision.getNivelDificultad())
+                            .append(", Descripción: ").append(mision.getDescripcion())
+                            .append("|| \n");
+                }
                 actual = actual.sig;
             }
             /*
