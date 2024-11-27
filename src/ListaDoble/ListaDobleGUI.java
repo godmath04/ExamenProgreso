@@ -5,8 +5,6 @@ import Heroes.Mision;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 public class ListaDobleGUI {
     private JPanel pGeneral;
@@ -14,7 +12,7 @@ public class ListaDobleGUI {
     private JButton agregarButton;
     private JButton eliminarButton;
     private JButton ordenarButton;
-    private JButton buscarButton;
+    private JButton modificarButton;
     private JButton mostrarButton;
     private JTextArea textArea1;
 
@@ -114,7 +112,7 @@ public class ListaDobleGUI {
             }
         });
         //Buscar por id
-        buscarButton.addActionListener(new ActionListener() {
+        modificarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = textField1.getText();
