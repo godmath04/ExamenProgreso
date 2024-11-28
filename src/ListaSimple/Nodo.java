@@ -1,13 +1,13 @@
-package ListaDoble;
+package ListaSimple;
 
-import Heroes.Heroe;
+import Avengers.YoungAvenger;
 
 public class Nodo {
-    //Modificacion del Nodo para que trabaje con objeto Heroe
-    public Heroe dato;
+    //Modificacion del Nodo para que trabaje con objeto YoungAvenger
+    public YoungAvenger dato;
     public Nodo sig;
 
-    public Nodo(Heroe dato) {
+    public Nodo(YoungAvenger dato) {
         this.dato = dato;
         this.sig = null;
     }

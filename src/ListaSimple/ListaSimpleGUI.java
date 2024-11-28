@@ -1,181 +1,288 @@
-package ListaDoble;
-import Heroes.Heroe;
-import Heroes.Mision;
+package ListaSimple;
+
+import Avengers.YoungAvenger;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ListaDobleGUI {
+public class ListaSimpleGUI {
     private JPanel pGeneral;
     private JTextField textField1;
     private JButton agregarButton;
-    private JButton eliminarButton;
     private JButton ordenarButton;
     private JButton modificarButton;
     private JButton mostrarButton;
     private JTextArea textArea1;
+    private JComboBox poderEspecial;
+    private JComboBox nivelHabilidad;
+    private JComboBox misionActiva;
+    private JTextArea textArea2;
+    private JButton contarMisionesButton;
 
-     ListaSimple lis = new ListaSimple();
+    ListaSimple lis = new ListaSimple();
 
-    public ListaDobleGUI() {
+    public ListaSimpleGUI() {
         agregarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Validacion que el campo del id no se encuentre vacio
-                String id = textField1.getText().trim(); //Eliminar espacio en blanco
-                if(id.isEmpty()){
-                    JOptionPane.showMessageDialog(null, "Por favor ingrese un ID para el héroe");
+                // Obtener el texto ingresado y eliminar espacios en blanco
+                String input = textField1.getText().trim();
+
+                // Validar si el campo está vacío
+                if (input.isEmpty()) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Por favor, ingrese un código para el Young Avenger.",
+                            "Campo vacío",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                    return; // Salir del método
+                }
+
+                // Validar si el valor ingresado no es un número entero
+                int codigo;
+                try {
+                    codigo = Integer.parseInt(input); // Intentar convertir a entero
+                    //Validamos que no sean letras
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Por favor, ingrese un número válido para el código del Young Avenger.",
+                            "Valor inválido",
+                            JOptionPane.ERROR_MESSAGE
+                    );
                     return;
                 }
 
-                // Verificar si el ID ya existe
-                if (lis.buscarHeroePorId(id) != null) {
-                    JOptionPane.showMessageDialog(null, "El ID ingresado ya existe. Por favor ingrese un ID único.");
+                // Validar si el código ya existe
+                if (lis.buscarHeroePorCodigo(codigo) != null) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "El código ingresado ya existe. Por favor, ingrese un código único.",
+                            "Código duplicado",
+                            JOptionPane.WARNING_MESSAGE
+                    );
                     textField1.setText(""); // Limpiar el campo de texto
-                    return; // Detener la ejecución si el ID ya existe
+                    return;
                 }
 
-                try {
-                    //Solicitar datos si el ID es valido
-                    String nombreH = JOptionPane.showInputDialog("Ingrese el nombre del Héroe");
-                    //Revisar nombre valido
-                    if (nombreH == null || nombreH.trim().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Debe ingresar un nombre válido.");
-                        return;
-                    }
-                    //Revisar superpoder sea valido
-                    String superH = JOptionPane.showInputDialog("Ingrese el superpoder del Héroe");
-                    if (superH == null || superH.trim().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Debe ingresar un superpoder válido.");
-                        return;
-                    }
-                    double ingresosH;
-                    try {
-                        ingresosH = Double.parseDouble(JOptionPane.showInputDialog("Ingrese los ingresos del héroe"));
-                        if (ingresosH < 0) {
-                            JOptionPane.showMessageDialog(null, "El ingreso debe ser un número positivo.");
-                            return;
-                        }
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Debe ingresar un valor numérico válido para los ingresos.");
-                        return;
-                    }
-                    //Agregar bloque para expandir la mision
-                    String idMision = JOptionPane.showInputDialog("Ingrese el ID de la Mision");
-                    String nombreMision = JOptionPane.showInputDialog("Ingrese el nombre de la misión: ");
-                    int nivelDificultad;
-                    try {
-                        nivelDificultad = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nivel de dificultad (1-5)"));
-                        if (nivelDificultad < 1 || nivelDificultad > 5) {
-                            JOptionPane.showMessageDialog(null, "El nivel de dificultad debe estar entre 1 y 5.");
-                            return;
-                        }
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Debe ingresar un número válido para el nivel de dificultad.");
-                        return;
-                    }
-                    String descripcion = JOptionPane.showInputDialog("Ingrese una descripción para la misión");
+                // Solicitar datos adicionales
+                String nombreH = JOptionPane.showInputDialog("Ingrese el nombre del Héroe");
+                if (nombreH == null || nombreH.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Debe ingresar un nombre válido."
+                    );
+                    return;
+                }
 
-                    //Crear y agregar el nuevo heroe
-                    Mision nuevaMision = new Mision(idMision, nombreMision, nivelDificultad, descripcion);
-                    Heroe nuevoHeroe = new Heroe(id, nombreH, superH, nuevaMision, ingresosH);
-                    lis.agregarListaDoble(nuevoHeroe, textArea1);
-                    textField1.setText("");
-                }catch (Exception ex){
-                    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
-                }
+                // Obtener poder seleccionado a partir de los combo box
+                String superH = (String) poderEspecial.getSelectedItem();
+                int nivelH = nivelHabilidad.getSelectedIndex() + 1; // Convertir a nivel (1-5)
+                String misionAc = (String) misionActiva.getSelectedItem();
+
+                // Crear y agregar el nuevo héroe
+                YoungAvenger nuevoHeroe = new YoungAvenger(codigo, nombreH, superH, nivelH, misionAc);
+                lis.agregarLista(nuevoHeroe, textArea1);
+                textField1.setText(""); // Limpiar el campo de texto
+
             }
         });
-        //Eliminar mediante id
-        eliminarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String id = textField1.getText();
-                try {
-                    lis.eliminarListaDoble(id, textArea1);
-                    textField1.setText("");
-                }catch (Exception ex){
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
+
         //Ordenar lista doble
         ordenarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
-                    lis.ordenarListaDoble(textArea1);
-                }catch (Exception ex){
-                    throw  new RuntimeException(ex);
+                try {
+                    lis.ordenarLista(textArea2);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         });
-        //Buscar por id
+        //Buscar por codigo y modificador
         modificarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String id = textField1.getText();
+                String id = textField1.getText().trim();
                 if (id.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Por favor, ingrese un ID para buscar.");
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Por favor, ingrese un codigo para buscar."
+                    );
                     return;
                 }
+                try {
+                    //Convertir a entero
+                    int codigo = Integer.parseInt(id);
+                    //Buscar nodo con el heroe
+                    Nodo nodo = lis.buscarHeroePorCodigo(codigo);
 
-                Nodo nodo = lis.buscarHeroePorId(id); // Método que buscará el nodo con el héroe
-                if (nodo == null) {
-                    JOptionPane.showMessageDialog(null, "Héroe con ID: " + id + " no encontrado.");
-                } else {
-                    Heroe heroe = nodo.dato;
-
-                    // Mostrar los datos actuales del héroe y las nuevas entradas
-                    String nuevoNombre = JOptionPane.showInputDialog("Nombre actual: " + heroe.getNombre() + "\nNuevo nombre:", heroe.getNombre());
-                    if (nuevoNombre == null || nuevoNombre.trim().isEmpty()) nuevoNombre = heroe.getNombre();
-
-                    String nuevoSuperpoder = JOptionPane.showInputDialog("Superpoder actual: " + heroe.getSuperpoder() + "\nNuevo superpoder:", heroe.getSuperpoder());
-                    if (nuevoSuperpoder == null || nuevoSuperpoder.trim().isEmpty()) nuevoSuperpoder = heroe.getSuperpoder();
-
-                    //String nuevaMision = JOptionPane.showInputDialog("Misión actual: " + heroe.getMisionId() + "\nNueva misión:", heroe.getMisionId());
-                    //if (nuevaMision == null || nuevaMision.trim().isEmpty()) nuevaMision = heroe.getMisionId();
-
-                    String nuevoPagoMensualStr = JOptionPane.showInputDialog("Pago mensual actual: $" + heroe.getPagoMensual() + "\nNuevo pago mensual:", heroe.getPagoMensual());
-                    double nuevoPagoMensual;
-                    try {
-                        nuevoPagoMensual = Double.parseDouble(nuevoPagoMensualStr.trim());
-                        if (nuevoPagoMensual <= 0) throw new NumberFormatException("El pago debe ser mayor a 0.");
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Entrada inválida para el pago mensual. No se actualizará.");
-                        nuevoPagoMensual = heroe.getPagoMensual();
+                    if (nodo == null) { // Si no se encuentra el héroe
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "YoungAvenger con codigo: " + id + " no encontrado."
+                        );
+                        return; // Salir de la acción si no se encuentra el ID
                     }
 
-                    // Actualizar datos del héroe
-                    heroe.setNombre(nuevoNombre);
-                    heroe.setSuperpoder(nuevoSuperpoder);
-                    //heroe.setMisionId(nuevaMision);
-                    heroe.setPagoMensual(nuevoPagoMensual);
+                    // Continuar con la modificación si el YoungAvenger existe
+                    YoungAvenger heroe = nodo.dato;
 
-                    JOptionPane.showMessageDialog(null, "Datos del héroe actualizados correctamente.");
-                    lis.mostrarListaDoble(textArea1); // Refrescar la lista mostrada
+                    //Mostrar confirmacion para que el usuario modifique
+                    int opcion = JOptionPane.showConfirmDialog(
+                            null,
+                            "Young Avenger encontrado: " + heroe.getNombre() +
+                                    "\n¿Desea modificar los datos del Young Avenger?",
+                            "Confirmación",
+                            JOptionPane.YES_NO_OPTION
+                    );
 
+                    if (opcion == JOptionPane.YES_OPTION) {
+                        String nuevoNombre = JOptionPane.showInputDialog(
+                                "Nombre actual: " + heroe.getNombre() + "\nNuevo nombre:",
+                                heroe.getNombre()
+                        );
 
+                        if (nuevoNombre != null && !nuevoNombre.trim().isEmpty()) {
+                            heroe.setNombre(nuevoNombre.trim());
+                        }
+
+                        //Traemos los combobox definidos con los valores que se encuentran actualmente
+                        poderEspecial.setSelectedItem(heroe.getPoderEspecial());
+                        nivelHabilidad.setSelectedIndex(heroe.getNivelhabilidad() - 1);
+                        misionActiva.setSelectedItem(heroe.getMisionAct());
+
+                        //Mostramoos un JOptionPane con Combobox
+                        Object[] opciones = {
+                                "Poder Especial:", poderEspecial,
+                                "Nivel de Habilidad:", nivelHabilidad,
+                                "Misión Activa:", misionActiva
+                        };
+                        int resultado = JOptionPane.showConfirmDialog(
+                                null,
+                                opciones,
+                                "Modificar Atributos",
+                                JOptionPane.OK_CANCEL_OPTION
+                        );
+
+                        //Modificacion
+                        if (resultado == JOptionPane.OK_OPTION) {
+                            // Guardar los valores seleccionados
+                            String nuevoPoder = (String) poderEspecial.getSelectedItem();
+                            int nuevoNivel = nivelHabilidad.getSelectedIndex() + 1;
+                            String nuevaMision = (String) misionActiva.getSelectedItem();
+
+                            heroe.setPoderEspecial(nuevoPoder);
+                            heroe.setNivelhabilidad(nuevoNivel);
+                            heroe.setMisionAct(nuevaMision);
+
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    "Datos del Young Avenger actualizados correctamente."
+                            );
+                            lis.mostrarLista(textArea1); // Refrescar la lista mostrada
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    "El codigo ingresado no es valido"
+                            );
+                        }
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "El código ingresado no es válido. Por favor, ingrese un número."
+                    );
                 }
             }
         });
         mostrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    lis.mostrarInformeCompleto(textArea1);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error al generar el informe: " + ex.getMessage());
+                // Combobox con los poderes especiales - Forma2
+                JComboBox<String> habilidadComboBox = new JComboBox<>(new String[]{
+                        "Teletransportacion",
+                        "Manipulacion_Energia",
+                        "Magia",
+                        "Super_Fuerza",
+                        "Arqueria"
+                });
+
+                // Mostrar un diálogo para seleccionar el poder especial
+                int result = JOptionPane.showConfirmDialog(
+                        null,
+                        habilidadComboBox,
+                        "Seleccione el poder especial para filtrar",
+                        JOptionPane.OK_CANCEL_OPTION
+                );
+
+                // Procesar si el usuario presiona OK
+                if (result == JOptionPane.OK_OPTION) {
+                    String habilidadSeleccionada = (String) habilidadComboBox.getSelectedItem();
+
+                    if (habilidadSeleccionada != null && !habilidadSeleccionada.trim().isEmpty()) {
+                        // Filtrar héroes que no tienen el poder especial seleccionado
+                        StringBuilder resultado = new StringBuilder("Young Avengers SIN el poder especial: " + habilidadSeleccionada + "\n");
+                        Nodo actual = lis.ini; // Inicio de la lista
+
+                        while (actual != null) {
+                            YoungAvenger heroe = actual.dato;
+                            if (!heroe.getPoderEspecial().equalsIgnoreCase(habilidadSeleccionada)) {
+                                resultado.append("Código: ").append(heroe.getCodigo())
+                                        .append(", Nombre: ").append(heroe.getNombre())
+                                        .append(", Poder: ").append(heroe.getPoderEspecial())
+                                        .append(", Nivel: ").append(heroe.getNivelhabilidad())
+                                        .append(", Misión: ").append(heroe.getMisionAct())
+                                        .append("\n");
+                            }
+                            actual = actual.sig; // Avanzar al siguiente nodo
+                        }
+
+                        // Mostrar el resultado en textArea2
+                        if (resultado.length() == 0) {
+                            textArea2.setText("No se encontraron Young Avengers SIN ese poder especial.");
+                        } else {
+                            textArea2.setText(resultado.toString());
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Debe seleccionar un poder especial válido."
+                        );
+                    }
                 }
             }
         });
+        contarMisionesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Obtener el poder especial seleccionado del comboBox
+                String poderSeleccionado = (String) poderEspecial.getSelectedItem();
+
+                if (poderSeleccionado == null || poderSeleccionado.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor, seleccione un poder especial válido.");
+                    return;
+                }
+
+                // Llamar al método recursivo para contar las misiones asociadas al poder especial
+                int conteo = lis.contarMisionesPorPoderEspecial(lis.ini, poderSeleccionado);
+
+                // Mostrar el resultado en el TextArea o en un JOptionPane
+                String mensaje = "Total de misiones para el poder especial '" + poderSeleccionado + "': " + conteo;
+                textArea2.setText(mensaje); // Muestra en el TextArea
+                JOptionPane.showMessageDialog(null, mensaje); // O muestra un diálogo
+            }
+        });
     }
+
     public static void main(String[] args) {
-        JFrame frame = new JFrame("ListaDobleGUI");
-        frame.setContentPane(new ListaDobleGUI().pGeneral);
+        JFrame frame = new JFrame("ListaSimpleGUI");
+        frame.setContentPane(new ListaSimpleGUI().pGeneral);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Configura el JFrame a pantalla completa
+        frame.setUndecorated(false); // Cambia a true si deseas ocultar los bordes de la ventana
         frame.setVisible(true);
     }
 

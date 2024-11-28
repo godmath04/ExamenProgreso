@@ -1,21 +1,20 @@
-package Heroes;
+package Avengers;
 
 //La clase heroe almacenara la informacion de los heroes
-public class YoungAvenger{
+public class YoungAvenger {
     private int codigo;
     private String nombre;
     private String poderEspecial;
     private int nivelhabilidad;
     private String misionAct;
 
-    public YoungAvenger(int codigo, String nombre, String poderespecial, int nivelhabilidad, String misionAct ) {
+    public YoungAvenger(int codigo, String nombre, String poderespecial, int nivelhabilidad, String misionAct) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.poderEspecial = poderespecial;
         this.nivelhabilidad = nivelhabilidad;
         this.misionAct = misionAct;
     }
-
 
 
     public int getCodigo() {
@@ -38,7 +37,10 @@ public class YoungAvenger{
         this.poderEspecial = poderEspecial;
     }
 
-    public int getNivelhabilidad(){this.nivelhabilidad = nivelhabilidad; return  nivelhabilidad;}
+    public int getNivelhabilidad() {
+        this.nivelhabilidad = nivelhabilidad;
+        return nivelhabilidad;
+    }
 
     public void setNivelhabilidad(int nivelhabilidad) {
         this.nivelhabilidad = nivelhabilidad;
@@ -51,7 +53,6 @@ public class YoungAvenger{
     public void setMisionAct(String misionAct) {
         this.misionAct = misionAct;
     }
-
 
 
 }
