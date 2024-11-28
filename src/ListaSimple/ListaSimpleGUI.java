@@ -16,7 +16,7 @@ public class ListaDobleGUI {
     private JButton mostrarButton;
     private JTextArea textArea1;
 
-     ListaDoble lis = new ListaDoble();
+     ListaSimple lis = new ListaSimple();
 
     public ListaDobleGUI() {
         agregarButton.addActionListener(new ActionListener() {
@@ -121,7 +121,7 @@ public class ListaDobleGUI {
                     return;
                 }
 
-                NodoDoble nodo = lis.buscarHeroePorId(id); // Método que buscará el nodo con el héroe
+                Nodo nodo = lis.buscarHeroePorId(id); // Método que buscará el nodo con el héroe
                 if (nodo == null) {
                     JOptionPane.showMessageDialog(null, "Héroe con ID: " + id + " no encontrado.");
                 } else {

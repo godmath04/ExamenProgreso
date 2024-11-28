@@ -2,15 +2,13 @@ package ListaDoble;
 
 import Heroes.Heroe;
 
-public class NodoDoble {
+public class Nodo {
     //Modificacion del Nodo para que trabaje con objeto Heroe
     public Heroe dato;
-    public NodoDoble ant;
-    public NodoDoble sig;
+    public Nodo sig;
 
-    public NodoDoble(Heroe dato) {
+    public Nodo(Heroe dato) {
         this.dato = dato;
-        this.ant = null;
         this.sig = null;
     }
 
